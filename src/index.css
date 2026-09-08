@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Georgia', 'Playfair Display', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --color-warm-bg: #FDFCFB;
+  --color-warm-card: #FFFFFF;
+  --color-warm-subtle: #F3EEE9;
+  --color-warm-surface: #F5F1EE;
+  --color-warm-border: #EAE4DD;
+  --color-warm-primary: #8C7A66;
+  --color-warm-accent: #AFA092;
+  --color-warm-dark: #1A1A1A;
+  --color-warm-muted: #555555;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #FDFCFB;
+  color: #1A1A1A;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .serif, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+

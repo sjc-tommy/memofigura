@@ -1,0 +1,6 @@
+{
+  "name": "MemoFigura",
+  "description": "Turn your cherished photos into one-of-a-kind custom 3D figurines and keepsakes to hold, display, and treasure.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

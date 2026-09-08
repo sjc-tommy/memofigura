@@ -1,0 +1,16 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# translation cache (regenerated at runtime)
+.translate-cache.json
+# local debug dumps
+d1.html
+d2.html
+doc.html
+dev.log
