@@ -1,0 +1,6 @@
+# robots.txt for MemoFigura (https://memofigura.com)
+User-agent: *
+Allow: /
+
+# Canonical Sitemaps
+Sitemap: https://memofigura.com/sitemap.xml
