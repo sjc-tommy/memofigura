@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Globe, FileCode, CheckCircle2, ArrowRight } from 'lucide-react';
 import { PageRoute } from '../types';
+import { BASE_URL } from '../services/seo';
 
 interface SitemapModalProps {
   isOpen: boolean;
@@ -98,7 +99,7 @@ export const SitemapModal: React.FC<SitemapModalProps> = ({ isOpen, onClose, onN
                         {item.title}
                       </p>
                       <p className="font-mono text-[10px] text-[#78716C] mt-0.5">
-                        https://memofigura.com{item.loc}
+                        {BASE_URL}{item.loc}
                       </p>
                     </div>
                     <span className="text-[10px] font-mono text-stone-400">
@@ -115,7 +116,7 @@ export const SitemapModal: React.FC<SitemapModalProps> = ({ isOpen, onClose, onN
         <div className="p-4 bg-[#FAF8F5] border-t border-[#E8E2D9] text-center text-xs text-[#78716C]">
           <span>Full XML Sitemap format available at </span>
           <code className="bg-stone-200 px-1.5 py-0.5 rounded text-[11px] text-stone-800">
-            https://memofigura.com/sitemap.xml
+            {BASE_URL}/sitemap.xml
           </code>
         </div>
 

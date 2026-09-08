@@ -1,7 +1,12 @@
 import { PageRoute, SeoMetadata } from '../types';
 import { FAQ_ITEMS } from '../data/mockData';
 
-const BASE_URL = 'https://memofigura.com';
+const VITE_BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const CONFIGURED_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '');
+
+export const BASE_URL =
+  CONFIGURED_URL ||
+  (typeof window !== 'undefined' ? `${window.location.origin}${VITE_BASE}` : '');
 
 export function getSeoMetadata(route: string): SeoMetadata {
   switch (route) {

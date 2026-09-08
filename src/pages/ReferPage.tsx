@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Gift, Copy, Check, Share2, Wallet, Sparkles, ArrowRight, Info } from 'lucide-react';
 import { PageRoute } from '../types';
 import { useLocale } from '../context/LocaleContext';
+import { BASE_URL } from '../services/seo';
 
 interface ReferPageProps {
   onNavigate: (route: PageRoute) => void;
@@ -69,8 +70,7 @@ export const ReferPage: React.FC<ReferPageProps> = ({ onNavigate }) => {
   }, []);
 
   const shareUrl = useMemo(() => {
-    if (typeof window === 'undefined') return 'https://memofigura.com/';
-    return `${window.location.origin}/?ref=${code || 'MEMO'}`;
+    return `${BASE_URL}/?ref=${code || 'MEMO'}`;
   }, [code]);
 
   const handleCopy = async () => {

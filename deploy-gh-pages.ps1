@@ -9,27 +9,45 @@
 
 $ErrorActionPreference = "Stop"
 $repo = "https://github.com/sjc-tommy/memofigura.git"
-$tmp  = Join-Path $PSScriptRoot "_deploy"
+$root = $PSScriptRoot
+$dist = Join-Path $root "dist"
+$tmp  = Join-Path $root "_deploy"
 
 Write-Host "==> Building static site (vite)..."
-npx vite build
+Push-Location $root
+try { npx vite build } finally { Pop-Location }
+if ($LASTEXITCODE -ne 0) { throw "vite build failed" }
 
 Write-Host "==> Adding SPA 404 fallback..."
-Copy-Item (Join-Path $PSScriptRoot "dist\index.html") (Join-Path $PSScriptRoot "dist\404.html") -Force
+Copy-Item (Join-Path $dist "index.html") (Join-Path $dist "404.html") -Force
 
-if (Test-Path $tmp) { Remove-Item -Recurse -Force -LiteralPath $tmp }
+if (-not (Test-Path $tmp)) {
+    Write-Host "==> Cloning into _deploy..."
+    git clone $repo $tmp | Out-Null
+    Push-Location $tmp
+    try {
+        git checkout --orphan gh-pages | Out-Null
+        git rm -rf . | Out-Null
+    } finally { Pop-Location }
+} else {
+    Write-Host "==> Reusing existing clone in _deploy..."
+    Push-Location $tmp
+    try {
+        git fetch origin --quiet
+        git checkout -B gh-pages --quiet
+    } finally { Pop-Location }
+}
 
-Write-Host "==> Cloning into temp dir..."
-git clone $repo $tmp | Out-Null
+Write-Host "==> Mirroring dist/ into _deploy/ (keeps .git)..."
+robocopy $dist $tmp /MIR /XD (Join-Path $tmp ".git") /NFL /NDL /NJH /NJS | Out-Null
+if ($LASTEXITCODE -ge 8) { throw "robocopy failed with code $LASTEXITCODE" }
 
 Push-Location $tmp
 try {
-    git checkout --orphan gh-pages | Out-Null
-    git rm -rf . | Out-Null
-    Copy-Item -Recurse (Join-Path $PSScriptRoot "dist\*") .
     git add -A
     git -c user.name="sjc-tommy" -c user.email="sjc-tommy@users.noreply.github.com" commit -m "Deploy static build to GitHub Pages" | Out-Null
-    git push --force origin gh-pages
+    if ($LASTEXITCODE -ne 0) { Write-Host "==> Nothing changed; skipping push." }
+    else { git push --force origin gh-pages }
 } finally {
     Pop-Location
 }

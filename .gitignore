@@ -6,6 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+# VITE_SITE_URL is public build config (no secrets) - keep it committed
+!.env
 
 # translation cache (regenerated at runtime)
 .translate-cache.json
