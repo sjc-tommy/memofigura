@@ -66,6 +66,8 @@ function currencyApiDevPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
+    // GitHub Pages 部署在子路径 /memofigura/ 下，资源需带该前缀
+    base: '/memofigura/',
     plugins: [react(), tailwindcss(), currencyApiDevPlugin()],
     resolve: {
       alias: {
